@@ -1,5 +1,6 @@
 import Header from './components/Header';
 import TaskList from './components/TaskList';
+import AddTask from './components/AddTask';
 import axios from 'axios';
 
 import './App.css';
@@ -28,9 +29,16 @@ function App() {
         .catch(error => console.error('Error deleting task:', error));
   };
 
+  const addTask = (name) => {
+    axios.post('http://localhost:3000/tasks', { name, completed: false })
+        .then(response => setTasks([...tasks, response.data]))
+        .catch(error => console.error('Error adding task:', error));
+  };
+
   return (
     <div className="App">
       <Header />
+      <AddTask onAdd={addTask} />
       <TaskList tasks={tasks} onComplete={completeTask} onDelete={deleteTask} />
     </div>
   );
