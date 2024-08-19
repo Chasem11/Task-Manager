@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="container">
       <Header />
       <AddTask onAdd={addTask} />
       <TaskList tasks={tasks} onComplete={completeTask} onDelete={deleteTask} />
