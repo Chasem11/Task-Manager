@@ -3,17 +3,19 @@ import Header from './components/Header';
 import TaskList from './components/TaskList';
 import AddTask from './components/AddTask';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import { AuthContext } from './context/AuthContext';
 import axios from 'axios';
 import './App.css';
 
 function App() {
-  const { authToken, logout } = useContext(AuthContext);
+  const { authToken, login, logout } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
+  const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
     if (authToken) {
-      axios.get('http://localhost:3000/tasks', {
+      axios.get('http://localhost:5432/tasks', {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -24,7 +26,8 @@ function App() {
   }, [authToken]);
 
   const completeTask = (id) => {
-    axios.put(`http://localhost:3000/tasks/${id}`, { completed: true }, {
+    console.log(`Completing task with ID: ${id}`);
+    axios.put(`http://localhost:5432/tasks/${id}`, { completed: true }, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
@@ -36,7 +39,7 @@ function App() {
   };
 
   const deleteTask = (id) => {
-    axios.delete(`http://localhost:3000/tasks/${id}`, {
+    axios.delete(`http://localhost:5432/tasks/${id}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
@@ -46,7 +49,7 @@ function App() {
   };
 
   const addTask = (name) => {
-    axios.post('http://localhost:3000/tasks', { name, completed: false }, {
+    axios.post('http://localhost:5432/tasks', { name, completed: false }, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
@@ -56,7 +59,11 @@ function App() {
   };
 
   if (!authToken) {
-    return <Login />;
+    return showSignup ? (
+      <Signup login={login} setShowSignup={setShowSignup} />
+    ) : (
+      <Login login={login} setShowSignup={setShowSignup} />
+    );
   }
 
   return (

@@ -9,7 +9,7 @@ const Task = ({ task, onComplete, onDelete }) => {
       <div className="task-buttons">
         <button
           className={task.completed ? 'completed' : ''}
-          onClick={() => onComplete(task.id)}
+          onClick={() => onComplete(task._id)}
         >
           Complete
         </button>
