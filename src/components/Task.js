@@ -8,12 +8,12 @@ const Task = ({ task, onComplete, onDelete }) => {
       </div>
       <div className="task-buttons">
         <button
-          className={task.completed ? 'completed' : ''}
+          className={`task-button ${task.completed ? 'task-button-completed' : ''}`}
           onClick={() => onComplete(task._id)}
         >
           Complete
         </button>
-        <button onClick={() => onDelete(task._id)}>Delete</button>
+        <button className='task-button' onClick={() => onDelete(task._id)}>Delete</button>
       </div>
     </li>
   );

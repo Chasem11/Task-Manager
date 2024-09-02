@@ -67,9 +67,9 @@ function App() {
   }
 
   return (
-    <div className="container">
+    <div className="taskContainer">
       <Header />
-      <button onClick={logout}>Logout</button>
+      <button className="task-button" onClick={logout}>Logout</button>
       <AddTask onAdd={addTask} />
       <TaskList tasks={tasks} onComplete={completeTask} onDelete={deleteTask} />
     </div>
