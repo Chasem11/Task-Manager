@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Header from './components/Header';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NavigationBar from './components/Navbar';
 import TaskList from './components/TaskList';
-import AddTask from './components/AddTask';
+import AddTaskPage from './components/AddTaskPage';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import { AuthContext } from './context/AuthContext';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
@@ -26,7 +28,6 @@ function App() {
   }, [authToken]);
 
   const completeTask = (id) => {
-    console.log(`Completing task with ID: ${id}`);
     axios.put(`http://localhost:5432/tasks/${id}`, { completed: true }, {
       headers: {
         Authorization: `Bearer ${authToken}`
@@ -67,13 +68,27 @@ function App() {
   }
 
   return (
-    <div className="taskContainer">
-      <Header />
-      <button className="task-button" onClick={logout}>Logout</button>
-      <AddTask onAdd={addTask} />
-      <TaskList tasks={tasks} onComplete={completeTask} onDelete={deleteTask} />
-    </div>
+    <Router>
+      <div className="app">
+        <NavigationBar logout={logout} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="container mt-4">
+                <TaskList tasks={tasks} onComplete={completeTask} onDelete={deleteTask} />
+              </div>
+            }
+          />
+          <Route
+            path="/add-task"
+            element={<AddTaskPage addTask={addTask} />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
 export default App;
+

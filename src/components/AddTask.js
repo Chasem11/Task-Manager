@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 
-const TaskForm = ({ onAdd }) => {
-  const [taskName, setTaskName] = useState('');
+const AddTask = ({ onAdd }) => {
+  const [name, setName] = useState('');
 
-  const handleSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    onAdd(taskName);
-    setTaskName('');
+    if (!name) {
+      alert('Please add a task name');
+      return;
+    }
+    onAdd(name);
+    setName('');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        className="task-input"
-        type="text"
-        placeholder="Enter a new task"
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
-      />
-      <button className="task-button" type="submit">Add Task</button>
-    </form>
+    <Form onSubmit={onSubmit}>
+      <Form.Group>
+        <Form.Label>Task Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter task name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </Form.Group>
+      <Button variant="primary" type="submit" className="mt-2">
+        Add Task
+      </Button>
+    </Form>
   );
 };
 
-export default TaskForm;
+export default AddTask;
+
